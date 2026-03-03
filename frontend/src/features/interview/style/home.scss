@@ -13,54 +13,456 @@
         padding: 3rem 1.5rem;
         gap: 2rem;
 
-        .interview-input-group{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 1rem;
+.interview {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #0d1117;
+  color: whitesmoke;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
-                min-width: 600px;
-                min-height: 400px;
-        
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3rem 1.5rem;
+  gap: 2rem;
 
-                textarea{
-                        height: 100%;
-                        width: 100%;
-                        border: none;
-                        outline: none;
-                        padding-inline: 1rem;
-                        padding-block: 0.75rem;
-                        border-radius: 0.5rem;
-                        background-color: #1e2535;
-                        color:whitesmoke;
-                }
+  /* Header Section */
+  .interviewHeading {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 2rem;
 
-                .left,.right{
-                        width: 50%;
-                }
+    .mainInterviewHeading {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
 
-                .left{
-                        align-self: stretch;
-                }
+      .highlight {
+        color: #d20d3b;
+      }
+    }
 
-                .file-label{
-                        display: inline;
-                        padding:0.75rem 1rem;
-                        background-color: #1e2535;
-                        color: whitesmoke;
-                        border-radius: 0.5rem;
-                        cursor: pointer;
-                        text-align: center;
-                      
-                }
+    .subInterviewHeading {
+      font-size: 1rem;
+      color: #525a6d;
+      max-width: 700px;
+      line-height: 1.6;
+    }
+  }
 
-                .right{
-                        display: flex;
-                        flex-direction: column;
-                        gap: 1rem;
-                        align-self: stretch;
-                }
+  /* Main Content Section */
+  .interviewInputGroup {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+
+    .left,
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Left Side - Job Description */
+    .left {
+      .jobDescriptionHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+
+        .jobDescriptionTitle {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-weight: 600;
+          font-size: 1.1rem;
+
+          .jobDescriptionIcon {
+            font-size: 1.3rem;
+          }
+
+          .jobDescriptionLabel {
+            color: whitesmoke;
+          }
         }
+
+        .requiredBadge {
+          background-color: #d20d3b;
+          color: white;
+          padding: 0.25rem 0.75rem;
+          border-radius: 0.25rem;
+          font-size: 0.85rem;
+          font-weight: 600;
+        }
+      }
+
+      .inputGroup {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .jobDescriptionInput {
+          width: 100%;
+          height: 100%;
+          min-height: 400px;
+          border: none;
+          outline: none;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          background-color: #1e2535;
+          color: whitesmoke;
+          resize: none;
+          font-family: inherit;
+          font-size: 0.95rem;
+          line-height: 1.5;
+
+          &::placeholder {
+            color: #525a6d;
+          }
+
+          &:focus {
+            background-color: #232e42;
+            box-shadow: 0 0 0 2px rgba(210, 13, 59, 0.1);
+          }
+        }
+      }
+    }
+
+    /* Right Side - User Profile */
+    .right {
+      border-left: 1px solid #525a6d;
+      padding-left: 2rem;
+
+      .profileHeader {
+        margin-bottom: 1rem;
+
+        .profileTitle {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-weight: 600;
+          font-size: 1.1rem;
+
+          .profileIcon {
+            font-size: 1.3rem;
+          }
+
+          .profileLabel {
+            color: whitesmoke;
+          }
+        }
+      }
+
+      /* Resume Section */
+      .profileSection {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .resumeHeader {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .resumeLabel {
+            font-weight: 600;
+            color: whitesmoke;
+          }
+
+          .requiredBadge {
+            background-color: #d20d3b;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+          }
+        }
+
+        .fileUploadLabel {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem;
+          background-color: #1e2535;
+          border-radius: 0.5rem;
+          border: 2px dashed #525a6d;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            border-color: #d20d3b;
+            background-color: #232e42;
+          }
+
+          .fileInput {
+            display: none;
+          }
+
+          .uploadContent {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+
+            .uploadIcon {
+              font-size: 2.5rem;
+              color: #d20d3b;
+            }
+
+            .uploadText {
+              font-size: 1rem;
+              font-weight: 600;
+              color: whitesmoke;
+              margin: 0;
+            }
+
+            .uploadInstruction {
+              font-size: 0.9rem;
+              color: #525a6d;
+              margin: 0;
+            }
+
+            .uploadFormat {
+              font-size: 0.85rem;
+              color: #525a6d;
+              margin: 0;
+              margin-top: 0.25rem;
+            }
+          }
+        }
+
+        .selfDescriptionHeader {
+          .selfDescriptionLabel {
+            font-weight: 600;
+            color: whitesmoke;
+          }
+        }
+
+        .inputGroup {
+          display: flex;
+          flex-direction: column;
+
+          .selfDescriptionInput {
+            width: 100%;
+            height: 150px;
+            border: none;
+            outline: none;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #1e2535;
+            color: whitesmoke;
+            resize: none;
+            font-family: inherit;
+            font-size: 0.95rem;
+            line-height: 1.5;
+
+            &::placeholder {
+              color: #525a6d;
+            }
+
+            &:focus {
+              background-color: #232e42;
+              box-shadow: 0 0 0 2px rgba(210, 13, 59, 0.1);
+            }
+          }
+        }
+      }
+
+      /* Or Divider */
+      .orDivider {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 1.5rem 0;
+
+        .dividerLine {
+          flex: 1;
+          height: 1px;
+          background-color: #525a6d;
+        }
+
+        .orText {
+          color: #525a6d;
+          font-size: 0.9rem;
+          font-weight: 500;
+        }
+      }
+
+      /* Info Message */
+      .infoMessage {
+        display: flex;
+        gap: 0.75rem;
+        padding: 1rem;
+        background-color: rgba(13, 17, 23, 0.8);
+        border-left: 3px solid #d20d3b;
+        border-radius: 0.5rem;
+        margin-top: 1rem;
+
+        .infoIcon {
+          flex-shrink: 0;
+          font-size: 1.2rem;
+        }
+
+        .infoText {
+          font-size: 0.9rem;
+          color: #525a6d;
+          line-height: 1.5;
+
+          .highlight {
+            color: #d20d3b;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+
+  /* Bottom Section */
+  .bottomSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #525a6d;
+    gap: 2rem;
+
+    .estimateTime {
+      flex: 1;
+
+      .estimateLabel {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #525a6d;
+      }
+    }
+
+    .generateBtn {
+      padding: 0.75rem 1.5rem;
+      background-color: #d20d3b;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+
+      &:hover {
+        background-color: #b8082f;
+        box-shadow: 0 4px 12px rgba(210, 13, 59, 0.3);
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &:disabled {
+        background-color: #525a6d;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    padding: 2rem 1.5rem;
+
+    .interviewHeading {
+      .mainInterviewHeading {
+        font-size: 2.5rem;
+      }
+
+      .subInterviewHeading {
+        font-size: 0.95rem;
+      }
+    }
+
+    .interviewInputGroup {
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .right {
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid #525a6d;
+        padding-top: 1.5rem;
+      }
+    }
+
+    .bottomSection {
+      flex-direction: column;
+      align-items: stretch;
+
+      .estimateTime {
+        text-align: center;
+      }
+
+      .generateBtn {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 1rem;
+    gap: 1.5rem;
+
+    .interviewHeading {
+      margin-bottom: 1.5rem;
+
+      .mainInterviewHeading {
+        font-size: 2rem;
+      }
+
+      .subInterviewHeading {
+        font-size: 0.9rem;
+      }
+    }
+
+    .interviewInputGroup {
+      .left {
+        .jobDescriptionHeader {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+
+        .inputGroup .jobDescriptionInput {
+          min-height: 300px;
+        }
+      }
+
+      .right {
+        .profileSection .fileUploadLabel {
+          padding: 1.5rem;
+        }
+
+        .profileSection .inputGroup .selfDescriptionInput {
+          min-height: 120px;
+        }
+      }
+    }
+  }
+}
 
         
 }

@@ -1,0 +1,17 @@
+.instructionBadge{
+        padding: 1rem 2rem;
+        background-color: #2b435fca;
+        border-radius: .2rem;
+        color: rgb(78, 102, 182);
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-start;
+        font-weight: 300;
+
+        .ibadgeHighlight{
+
+                        font-weight: 600;
+                color: #d20d3b;
+        }
+        
+}
