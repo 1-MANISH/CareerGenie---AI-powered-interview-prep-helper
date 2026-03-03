@@ -64,7 +64,7 @@ const Interview = () => {
         //     }
 
         const report = {
-                matchScore: 80,
+                matchScore: 40,
                 technicalQuestions: questions,
                 behavioralQuestions: questions,
                 skillGaps: [{skill:"Eventloop",severity:"high"}],
@@ -164,8 +164,8 @@ const Interview = () => {
                         {/* Match Score */}
                         <div className='match-score'>
                                 <p className='match-score__label'>Match Score</p>
-                                <div className={`match-score__ring `}>
-                                <span className='match-score__value'>{89}</span>
+                                  <div className={`match-score__ring ${scoreColor}`}>
+                                 <span className='match-score__value'>{report.matchScore}</span>
                                 <span className='match-score__pct'>%</span>
                                 </div>
                                 <p className='match-score__sub'>Strong match for this role</p>
