@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import '../style/interview.scss'
-// import { useInterview } from '../hooks/useInterview.js'
+
 import { useNavigate, useParams } from 'react-router'
 import Question from '../components/Question'
 import RoadmapDay from '../components/RoadmapDay'
+import { useInterview } from '../hooks/useInterview'
+import Loading from "../../auth/components/loading"
 
 const NAV_ITEMS = [
         { id: 'technical', label: 'Technical Questions', icon: (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></svg>) },
@@ -39,37 +41,39 @@ const days = [
                 ]
         }
 ]
-
-
-// ── Main Component ────────────────────────────────────────────────────────────
-const Interview = () => {
-        const [ activeNav, setActiveNav ] = useState('technical')
-        //     const { report, getReportById, loading, getResumePdf } = useInterview()
-        const { interviewId } = useParams()
-
-        //     useEffect(() => {
-        //         if (interviewId) {
-        //             getReportById(interviewId)
-        //         }
-        //     }, [ interviewId ])
-
-
-
-        //     if (loading || !report) {
-        //         return (
-        //             <main className='loading-screen'>
-        //                 <h1>Loading your interview plan...</h1>
-        //             </main>
-        //         )
-        //     }
-
-        const report = {
+const report = {
                 matchScore: 40,
                 technicalQuestions: questions,
                 behavioralQuestions: questions,
                 skillGaps: [{skill:"Eventloop",severity:"high"}],
                 preparationPlan: days
-        }
+}
+
+// ── Main Component ────────────────────────────────────────────────────────────
+const Interview = () => {
+
+        const navigate = useNavigate()
+        const [ activeNav, setActiveNav ] = useState('technical')
+        const {  handleGetInterviewReport, loading,  } = useInterview()
+        const { interviewId } = useParams()
+
+            useEffect(() => {
+                if (interviewId) {
+                        handleGetInterviewReport(interviewId)
+                }
+            }, [ interviewId ])
+
+
+
+            if (loading || !report) {
+                return (
+                    <main className='loading-screen'>
+                       <Loading />
+                    </main>
+                )
+            }
+
+
 
         const scoreColor = report.matchScore >= 80 ? 'score--high' :report.matchScore >= 60 ? 'score--mid' : 'score--low'
 

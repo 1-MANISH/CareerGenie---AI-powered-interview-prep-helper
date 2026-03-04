@@ -3,7 +3,46 @@ import { MdDescription } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { TbCloudUpload } from "react-icons/tb";
 import { CiCircleAlert } from "react-icons/ci";
+import { useInterview } from "../hooks/useInterview";
+import { useCallback, useRef, useState } from "react";
+import { useNavigate } from "react-router";
+
 function Home() {
+
+        const navigate  = useNavigate()
+        const {loading,handleGenerateReport} = useInterview()
+
+        const [jobDescription,setJobDescription ] = useState()
+        const [selfDescription,setSelfDescription ] = useState()
+        const resumeInputRef = useRef(null)
+
+
+        const generateReport = useCallback(async()=>{
+                try {
+
+                        const resumeFile = resumeInputRef.current.files[0]
+                        if(!jobDescription){
+                                console.log("No job description provided")
+                                return
+                        }
+                        if(!selfDescription && !resumeFile){
+                                console.log("Please provide resume or self description")
+                                return
+                        }
+                        const response = await handleGenerateReport({
+                                jobDescription,
+                                selfDescription,
+                                resumeFile
+                        })
+
+                        navigate(`/interview/${response._id}`)
+
+                } catch (error) {
+                        console.log(`Error generating report: ${error}`)
+                }
+        },[handleGenerateReport,jobDescription,selfDescription,navigate])
+
+
         return (
                 <main className="home">
                           <div className="interview">
@@ -32,6 +71,7 @@ function Home() {
                                                                         <textarea
                                                                                 className="jobDescriptionInput"
                                                                                 placeholder="Enter job description ..."
+                                                                                onChange={(e)=>setJobDescription(e.target.value)}
                                                                         />
                                                                 </div>
                                                         </div>
@@ -53,7 +93,7 @@ function Home() {
                                                                                 <span className="requiredBadge">For best result</span>
                                                                         </div>
                                                                         <label className="fileUploadLabel">
-                                                                                <input type="file" className="fileInput" accept=".pdf" />
+                                                                                <input ref={resumeInputRef} type="file" className="fileInput" accept=".pdf" />
                                                                                 <div className="uploadContent">
                                                                                         <TbCloudUpload className="uploadIcon" />
                                                                                         <p className="uploadText">Upload Resume</p>
@@ -79,6 +119,7 @@ function Home() {
                                                                                 <textarea
                                                                                         className="selfDescriptionInput"
                                                                                         placeholder="Enter self description ..."
+                                                                                        onChange={(e)=>setSelfDescription(e.target.value)}
                                                                                 />
                                                                         </div>
                                                                 </div>
@@ -98,7 +139,12 @@ function Home() {
                                                         <div className="estimateTime">
                                                                 <span className="estimateLabel">AI-Powered Strategy Generation . Approx 1m</span>
                                                         </div>
-                                                        <button className="button primary-button">
+                                                        <button 
+                                                                className="button primary-button"
+                                                                disabled={loading}
+                                                                onClick={generateReport}
+                                                                style={{opacity:`${loading ? 0.5 :0.9}`}}
+                                                        >
                                                                 Generate Interview Report
                                                         </button>
                                                 </div>
