@@ -4,13 +4,13 @@ import { FaUser } from "react-icons/fa";
 import { TbCloudUpload } from "react-icons/tb";
 import { CiCircleAlert } from "react-icons/ci";
 import { useInterview } from "../hooks/useInterview";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-
+import Loading from "../../auth/components/loading"
 function Home() {
 
         const navigate  = useNavigate()
-        const {loading,handleGenerateReport} = useInterview()
+        const {loading,handleGenerateReport,handleGetAllInterviewReport,reports} = useInterview()
 
         const [jobDescription,setJobDescription ] = useState()
         const [selfDescription,setSelfDescription ] = useState()
@@ -42,7 +42,21 @@ function Home() {
                 }
         },[handleGenerateReport,jobDescription,selfDescription,navigate])
 
+        useEffect(()=>{
+                const fetchAllInterviewReport = async()=>{
+                        await handleGetAllInterviewReport()
+                }
 
+                fetchAllInterviewReport()
+        },[])
+
+         if (loading) {
+                        return (
+                        <main className='loading-screen'>
+                                <Loading />
+                        </main>
+                        )
+        }
         return (
                 <main className="home">
                           <div className="interview">
@@ -149,6 +163,31 @@ function Home() {
                                                         </button>
                                                 </div>
                                         </div>
+
+                                        {/* Recent Reports List */}
+                                        {
+                                                reports.length > 0 && (
+                                                        <section className='recent-reports'>
+                                                        <h2>My Recent Interview Plans</h2>
+                                                        <ul className='reports-list'>
+                                                                {reports.map(report => (
+                                                                <li key={report._id} className='report-item' onClick={() => navigate(`/interview/${report._id}`)}>
+                                                                        <h3>{report.title || 'Untitled Position'}</h3>
+                                                                        <p className='report-meta'>Generated on {new Date(report.createdAt).toLocaleDateString()}</p>
+                                                                        <p className={`match-score ${report.matchScore >= 80 ? 'score--high' : report.matchScore >= 60 ? 'score--mid' : 'score--low'}`}>Match Score: {report.matchScore}%</p>
+                                                                </li>
+                                                                ))}
+                                                        </ul>
+                                                        </section>
+                                                )
+                                        }
+
+                                        {/* Page Footer */}
+                                        <footer className='page-footer'>
+                                                <a href='#'>Privacy Policy</a>
+                                                <a href='#'>Terms of Service</a>
+                                                <a href='#'>Help Center</a>
+                                        </footer>
                 </main>
         )
 }

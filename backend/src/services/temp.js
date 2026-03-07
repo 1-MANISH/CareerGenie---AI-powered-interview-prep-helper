@@ -372,3 +372,51 @@ export {
         selfIntroduction,
         jobDescription
 }
+
+/*
+
+
+                                If output is not valid JSON, regenerate internally before responding.
+
+                                Strictly follow this schema for the output:
+
+                                {
+                                        matchScore: number,
+
+                                        technicalQuestions: [
+                                                {
+                                                        question: string,
+                                                        intention: string,
+                                                        answer: string
+                                                }
+                                        ],
+
+                                        behavioralQuestions: [
+                                                {
+                                                        question: string,
+                                                        intention: string,
+                                                        answer: string
+                                                }
+                                        ],
+
+                                        skillGaps: [
+                                                {
+                                                        skill: string,
+                                                        severity: "low" | "medium" | "high"
+                                                }
+                                        ],
+
+                                        preparationPlan: [
+                                                {
+                                                        day: number,
+                                                        focusArea: string,
+                                                        tasks: string[]
+                                                }
+                                        ]
+                                }
+                                Return ONLY valid JSON.
+
+                                Do NOT include markdown.
+                                Do NOT include explanations.
+                                Do NOT include extra text.
+*/

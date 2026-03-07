@@ -3,6 +3,8 @@ import TryCatch from "../utils/catchAsyncError.js";
 import { PDFParse } from 'pdf-parse';
 import aiService from "../services/ai.service.js";
 import interviewReportModel from "../models/interviewReport.model.js";
+
+
 /**
  * @controller generateInterviewReportController
  * @name generateInterviewReportController
@@ -70,7 +72,8 @@ const getInterviewReportController = TryCatch(async(req,res,_next)=>{
         
         const {interviewId} = req.params
 
-        const interviewReport = await interviewReportModel.findOne({_id:interviewId,user:req.user._id}).populate('user').exec()
+
+        const interviewReport = await interviewReportModel.findOne({_id:interviewId}).populate('user').exec()
        
         if(!interviewReport){
                 return res.status(404).json({
@@ -98,20 +101,63 @@ const getInterviewReportController = TryCatch(async(req,res,_next)=>{
 const getAllInterviewReportsController = TryCatch(async(req,res,_next)=>{
         
 
-        const interviewReports = await interviewReportModel.find({user:req.user._id}).select(
+        const interviewReports = await interviewReportModel.find({}).select(
                 "-resume -selfDescription -jobDescription -__v -technicalQuestions -behavioralQuestions -skillGaps -preparationPlan"
-        )
+        ).populate('user').exec()
 
 
-        res.status(201).json({
+        res.status(200).json({
                 success :true,
                 message:"Interview report get successfully",
                 interviewReports
 
         })
 })
+
+/**
+ * @controller generateATSJobResumeController
+ * @name generateATSJobResumeController
+ * @description Generate ATS job resume from resume and job description and self description
+ * @param {*} req
+ * @param {*} res
+ * @access private
+ */
+
+const generateATSJobResumeController = TryCatch(async(req,res,_next)=>{
+        
+        const {interviewId} = req.params
+        
+        const report = await interviewReportModel.findOne({_id:interviewId})
+
+        if(!report){
+                return res.status(404).json({
+                        success:false,
+                        message:"Interview report not found"
+                })
+        }
+
+        const {
+                selfDescription,
+                jobDescription,
+                resume
+        } = report
+
+        const resumePdfBuffer = await aiService.generateResumePdf({ 
+                resume,
+                jobDescription,
+                selfDescription
+        })
+
+        res.set({
+                'Content-Type': 'application/pdf',
+                'Content-Disposition': `attachment; filename=resume_${interviewId}.pdf`
+        })
+
+        res.status(200).send(resumePdfBuffer)
+})
 export default {
         generateInterviewReportController,
         getInterviewReportController,
-        getAllInterviewReportsController
+        getAllInterviewReportsController,
+        generateATSJobResumeController
 }

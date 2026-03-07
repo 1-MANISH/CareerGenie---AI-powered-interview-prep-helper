@@ -69,3 +69,23 @@ export async function getAllInterviewReports(){
                 throw error
         }
 }
+/**
+ * @function generateATSJobResume
+ * @description Generate ATS job resume
+ * @param {*} param0
+ * @returns 
+ */
+export async function generateATSJobResume({interviewId}){
+
+        try {
+                const response = await axiosInstance.post(
+                        `/api/interview/resume/pdf/${interviewId}`,null, {
+                                responseType: 'blob'
+                        }
+                        
+                )
+                return response.data
+        } catch (error) {
+                throw error
+        }
+}

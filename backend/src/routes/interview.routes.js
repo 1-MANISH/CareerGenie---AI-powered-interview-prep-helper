@@ -29,4 +29,14 @@ interviewRouter.get("/report/:interviewId",middleware.authUser,interviewControll
 
 interviewRouter.get("/reports",middleware.authUser,interviewController.getAllInterviewReportsController)
 
+
+/**
+ * 
+ * @route GET /api/interview/resume/pdf/:interviewId
+ * @description  Generate ATS job resume from resume and job description and self description
+ * @access private
+ */
+
+interviewRouter.post("/resume/pdf/:interviewId",middleware.authUser,interviewController.generateATSJobResumeController)
+
 export default interviewRouter
